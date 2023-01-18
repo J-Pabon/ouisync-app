@@ -33,7 +33,14 @@ class DirectoryActions extends StatelessWidget {
             _buildAction(
                 name: S.current.actionNewFile,
                 icon: Icons.insert_drive_file_outlined,
-                action: () async => await addFile(context, cubit))
+                action: () async {
+                  try {
+                    await addFile(context, cubit);
+                  } catch (e) {
+                    print(
+                        ">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.new file action exception $e");
+                  }
+                })
           ]),
         ]);
   }
@@ -81,33 +88,43 @@ class DirectoryActions extends StatelessWidget {
   }
 
   Future<void> addFile(context, RepoCubit repo) async {
+    print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 1");
     final dstDir = repo.currentFolder.path;
 
+    print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 1.1 $dstDir");
     final result = await FilePicker.platform.pickFiles(
       type: FileType.any,
       withReadStream: true,
       allowMultiple: true,
     );
+    print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 2");
 
     if (result != null) {
+      print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 3.1");
       for (final srcFile in result.files) {
+        print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 3.2");
         final dstPath = buildDestinationPath(dstDir, srcFile.name);
 
         if (await repo.exists(dstPath)) {
+          print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 3.3");
           final type = await repo.type(dstPath);
           final typeNameForMessage = _getTypeNameForMessage(type);
+          print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 3.4");
           showSnackBar(context,
               content:
                   Text(S.current.messageEntryAlreadyExist(typeNameForMessage)));
           continue;
         }
 
+        print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 3.5");
         repo.saveFile(
             filePath: dstPath,
             length: srcFile.size,
             fileByteStream: srcFile.readStream!);
+        print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 3.5");
       }
     }
+    print(">>>>>>>>>>>>>>>>>>>> modal_action_bottom_sheet.addFile 4");
 
     Navigator.of(context).pop();
   }

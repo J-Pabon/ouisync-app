@@ -168,46 +168,58 @@ class RepoCubit extends cubits.WatchSelf<RepoCubit> with OuiSyncAppLogger {
     required int length,
     required Stream<List<int>> fileByteStream,
   }) async {
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 1 $filePath");
     if (uploads.containsKey(filePath)) {
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 2");
       showMessage(S.current.messageFileIsDownloading);
       return;
     }
 
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 3");
     final file = await _createFile(filePath);
 
     if (file == null) {
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 4");
       showMessage(S.current.messageNewFileError(filePath));
       return;
     }
 
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 5");
     final job = Job(0, length);
     update((repo) {
       repo.uploads[filePath] = job;
     });
 
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 6");
     await _refreshFolder();
 
     // TODO: We should try to remove the file in case of exception or user cancellation.
 
     try {
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 7");
       int offset = 0;
       final stream = fileByteStream.takeWhile((_) => job.state.cancel == false);
 
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 8");
       await for (final buffer in stream) {
         await file.write(offset, buffer);
         offset += buffer.length;
         job.update(offset);
       }
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 9");
     } catch (e) {
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 10");
       showMessage(S.current.messageWritingFileError(filePath));
       return;
     } finally {
+      print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 11");
       await file.close();
       await _refreshFolder();
       update((repo) {
         repo.uploads.remove(filePath);
       });
     }
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>> repo.dart/saveFile 12");
 
     if (job.state.cancel) {
       showMessage(S.current.messageWritingFileCanceled(filePath));
