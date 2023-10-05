@@ -13,7 +13,7 @@ This repository implements the GUI for the **[Ouisync library](https://github.co
 
 Currently supported operating systems are Android, Windows and Linux.
 
-# Git clone
+## Git clone
 
 This repository uses git submodules. As such, use the following commands to clone it locally:
 
@@ -22,7 +22,7 @@ git clone https://github.com/equalitie/ouisync-app
 git submodule update --init --recursive
 ```
 
-# Compilation
+## Compilation
 
 You'll need [Flutter](https://docs.flutter.dev/get-started/install), [Rust](https://www.rust-lang.org/tools/install) and other dependencies corresponding to the target platform:
 
@@ -37,7 +37,7 @@ flutter pub get
 flutter <build|run> -d <windows|android|linux>
 ```
 
-# Docker
+## Docker
 
 We have *Dockerfiles* for
 [**Linux**](https://github.com/equalitie/ouisync-app/blob/master/docker/dev/linux/Dockerfile)
@@ -52,7 +52,7 @@ somewhat outdated (TODO).
    - Similarly, you can use the Windows Dockerfile to create the Windows
      desktop or the Android app. 
 
-# Sentry
+## Sentry (optional)
 
 **Ouisync** integrates **Sentry**, via the `sentry_flutter` plugin. 
 
@@ -60,11 +60,7 @@ For initialization, you need to get a client key, called **DSN**, from a **Sentr
 
 Please follow the instructions in the package repository for [envied in GitHub](https://github.com/petercinibulk/envied#table-of-contents) to add a key called `DSN`, that contains the client key.
 
-<br />
-
-# Troubleshooting
-
-<br />
+## Troubleshooting
 
 ### Specify paths to sub-commands: **`rustc`** and **`cargo`**
 
