@@ -68,10 +68,6 @@ jobs:
                                ninja-build
         if: matrix.name == 'linux'
 
-      - name: Install build dependencies (android)
-        run: sudo apt-get install
-        if: matrix.name == 'android'
-
       - name: Install Android NDK
         uses: nttld/setup-ndk@v1
         with:
