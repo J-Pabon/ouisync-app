@@ -39,7 +39,7 @@ class Fields {
       TextAlign textAlign,
       TextStyle? style,
       Map<String, StyledTextTagBase>? tags,
-      EdgeInsets padding) {
+      EdgeInsetsDirectional padding) {
     tags ??= <String, StyledTextTagBase>{};
 
     tags.addAll({'font': StyledTextTag(style: style)});
@@ -55,7 +55,7 @@ class Fields {
     TextAlign textAlign = TextAlign.center,
     TextStyle? style,
     Map<String, StyledTextTagBase>? tags,
-    EdgeInsets padding = Dimensions.paddingInPageMain,
+    EdgeInsetsDirectional padding = Dimensions.paddingInPageMain,
   }) =>
       _styledTextBase(
         message,
@@ -70,7 +70,7 @@ class Fields {
     TextAlign textAlign = TextAlign.center,
     TextStyle? style,
     Map<String, StyledTextTagBase>? tags,
-    EdgeInsets padding = Dimensions.paddingInPageSecondary,
+    EdgeInsetsDirectional padding = Dimensions.paddingInPageSecondary,
   }) =>
       _styledTextBase(
         message,
@@ -118,7 +118,7 @@ class Fields {
       FractionallySizedBox(
         widthFactor: widthFactor,
         child: Container(
-          margin: EdgeInsets.symmetric(
+          margin: EdgeInsetsDirectional.symmetric(
             vertical: verticalMargin,
           ),
           child: Container(
@@ -133,7 +133,7 @@ class Fields {
 
   static Widget bottomSheetTitle(
     String title, {
-    EdgeInsets padding = Dimensions.paddingBottomSheetTitle,
+    EdgeInsetsDirectional padding = Dimensions.paddingBottomSheetTitle,
     TextAlign textAlign = TextAlign.start,
     TextOverflow textOverflow = TextOverflow.ellipsis,
     bool softWrap = true,
@@ -176,7 +176,7 @@ class Fields {
           double? minTextFontSize,
           double? maxTextFontSize,
           int textMaxLines = 1,
-          EdgeInsets padding = Dimensions.paddingBox,
+          EdgeInsetsDirectional padding = Dimensions.paddingBox,
           Widget space = Dimensions.spacingHorizontal}) =>
       Padding(
           padding: padding,
@@ -218,7 +218,7 @@ class Fields {
           TextOverflow textOverflow = TextOverflow.clip,
           bool textSoftWrap = true,
           TextStyle? textStyle,
-          EdgeInsets padding = Dimensions.paddingBox,
+          EdgeInsetsDirectional padding = Dimensions.paddingBox,
           Widget space = Dimensions.spacingHorizontal}) =>
       Padding(
           padding: padding,
@@ -268,7 +268,7 @@ class Fields {
           TextOverflow textOverflow = TextOverflow.clip,
           bool textSoftWrap = true,
           TextStyle? style,
-          EdgeInsets padding = Dimensions.paddingBox,
+          EdgeInsetsDirectional padding = Dimensions.paddingBox,
           Widget space = Dimensions.spacingHorizontal}) =>
       Padding(
         padding: padding,
@@ -350,7 +350,7 @@ class Fields {
     Widget icon, {
     required void Function()? onPressed,
     double size = Dimensions.sizeIconMicro,
-    EdgeInsets padding = Dimensions.paddingIconButton,
+    EdgeInsetsDirectional padding = Dimensions.paddingIconButton,
     AlignmentGeometry alignment = Dimensions.alignmentIconButton,
     Color? color,
     FocusNode? focusNode,
@@ -390,7 +390,7 @@ class Fields {
           child: ListTile(
             visualDensity: visualDensity,
             dense: dense,
-            contentPadding: EdgeInsets.zero,
+            contentPadding: EdgeInsetsDirectional.zero,
             minLeadingWidth: 20.0,
             leading: (icon != null)
                 ? _iconBase(icon, size: iconSize, color: iconColor)
@@ -494,7 +494,7 @@ class Fields {
 
   static Widget dialogActions(BuildContext context,
           {required List<Widget> buttons,
-          EdgeInsets padding = Dimensions.paddingActionsSection,
+          EdgeInsetsDirectional padding = Dimensions.paddingActionsSection,
           MainAxisAlignment mainAxisAlignment = MainAxisAlignment.center}) =>
       Padding(
           padding: padding,

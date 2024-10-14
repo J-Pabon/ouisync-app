@@ -65,7 +65,7 @@ class RepositoriesBar extends StatelessWidget
   Widget _buildStats(BuildContext context, RepoEntry? repo) =>
       repo is OpenRepoEntry
           ? Padding(
-              padding: EdgeInsets.only(right: 10.0),
+              padding: EdgeInsetsDirectional.only(end: 10.0),
               child: LiveThroughputDisplay(
                 _repoStatsStream(repo.cubit),
                 size: Theme.of(context).textTheme.labelSmall?.fontSize,
@@ -76,7 +76,7 @@ class RepositoriesBar extends StatelessWidget
 
   Widget _buildStatus(RepoEntry? repo) => repo is OpenRepoEntry
       ? Padding(
-          padding: EdgeInsets.only(right: 10.0),
+          padding: EdgeInsetsDirectional.only(end: 10.0),
           child: RepoStatus(repo.cubit),
         )
       : SizedBox.shrink();
