@@ -85,8 +85,8 @@ class _ScrollableTextWidgetState extends State<ScrollableTextWidget> {
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.bottomRight,
+                      begin: AlignmentDirectional.bottomStart,
+                      end: AlignmentDirectional.bottomEnd,
                       colors: [
                         widget.parentColor,
                         widget.parentColor.withOpacity(0.1)
