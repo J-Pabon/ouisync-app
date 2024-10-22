@@ -46,7 +46,7 @@ class SortListCubit extends Cubit<SortListState> with AppLogger {
       emit(state.copyWith(direction: direction));
 }
 
-enum SortBy { name, size, type }
+enum SortBy { name, type, size }
 
 enum SortDirection { asc, desc }
 

@@ -121,14 +121,14 @@ class _Refresher {
             case SortBy.name:
               content.sort(_sortByName(sortDirection ?? SortDirection.asc));
               break;
-            case SortBy.size:
-              content.sort(_sortBySize(sortDirection ?? SortDirection.asc));
-              break;
             case SortBy.type:
               content.sort(_sortByType(sortDirection ?? SortDirection.asc));
               break;
+            case SortBy.size:
+              content.sort(_sortBySize(sortDirection ?? SortDirection.asc));
+              break;
             default:
-              content.sort(_sortByName(sortDirection ?? SortDirection.asc));
+              content.sort(_sortByType(sortDirection ?? SortDirection.asc));
           }
 
           if (path == folder.state.path) {
@@ -172,6 +172,21 @@ class _Refresher {
     return nameResult;
   }
 
+  int Function(FileSystemEntry, FileSystemEntry)? _sortByType(
+      SortDirection direction) {
+    return direction == SortDirection.asc
+        ? (a, b) => _typeComparator(a, b)
+        : (b, a) => _typeComparator(a, b);
+  }
+
+  int _typeComparator(FileSystemEntry a, FileSystemEntry b) => switch ((a, b)) {
+        (FileEntry(), FileEntry()) ||
+        (DirectoryEntry(), DirectoryEntry()) =>
+          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+        (DirectoryEntry(), FileEntry()) => -1,
+        (FileEntry(), DirectoryEntry()) => 1,
+      };
+
   int Function(FileSystemEntry, FileSystemEntry)? _sortBySize(
       SortDirection direction) {
     return direction == SortDirection.asc
@@ -193,19 +208,4 @@ class _Refresher {
       sizeResult == 0
           ? a.name.toLowerCase().compareTo(b.name.toLowerCase())
           : sizeResult;
-
-  int Function(FileSystemEntry, FileSystemEntry)? _sortByType(
-      SortDirection direction) {
-    return direction == SortDirection.asc
-        ? (a, b) => _typeComparator(a, b)
-        : (b, a) => _typeComparator(a, b);
-  }
-
-  int _typeComparator(FileSystemEntry a, FileSystemEntry b) => switch ((a, b)) {
-        (FileEntry(), FileEntry()) ||
-        (DirectoryEntry(), DirectoryEntry()) =>
-          a.name.toLowerCase().compareTo(b.name.toLowerCase()),
-        (DirectoryEntry(), FileEntry()) => -1,
-        (FileEntry(), DirectoryEntry()) => 1,
-      };
 }
