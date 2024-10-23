@@ -125,7 +125,10 @@ class _SortByList extends StatelessWidget with AppLogger {
   }
 
   Widget _buildSortByList(
-          BuildContext context, SortBy sortBy, SortDirection direction) =>
+    BuildContext context,
+    SortBy sortBy,
+    SortDirection direction,
+  ) =>
       ListView.builder(
         shrinkWrap: true,
         itemCount: SortBy.values.length,
