@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:path/path.dart' as p;
 
 import '../cubits/cubits.dart';
 import '../utils/repo_path.dart' as repo_path;
@@ -180,7 +181,8 @@ class _Refresher {
   }
 
   int _typeComparator(FileSystemEntry a, FileSystemEntry b) => switch ((a, b)) {
-        (FileEntry(), FileEntry()) ||
+        (FileEntry(), FileEntry()) =>
+          p.extension(a.name).compareTo(p.extension(b.name)),
         (DirectoryEntry(), DirectoryEntry()) =>
           a.name.toLowerCase().compareTo(b.name.toLowerCase()),
         (DirectoryEntry(), FileEntry()) => -1,
