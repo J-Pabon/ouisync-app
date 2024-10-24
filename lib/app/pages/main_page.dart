@@ -231,6 +231,13 @@ class _MainPageState extends State<MainPage>
 
       if (currentRepo is OpenRepoEntry) {
         final navigationPath = currentRepo.cubit.state.currentFolder.path;
+
+        WidgetsBinding.instance.addPostFrameCallback(
+            (timeStamp) async => await Dialogs.executeFutureWithLoadingDialog(
+                  context,
+                  currentRepo.cubit.refresh(),
+                ));
+
         currentRepo.cubit.navigateTo(navigationPath);
 
         return _repositoryContentBuilder(currentRepo);
