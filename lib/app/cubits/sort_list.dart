@@ -27,15 +27,26 @@ class SortListState extends Equatable {
 class SortListCubit extends Cubit<SortListState> with AppLogger {
   SortListCubit._(super.state);
 
+  static SortBy? _defaultSortBy;
+  static SortDirection? _defaultDirection;
+
   static SortListCubit create(
       {required SortBy sortBy,
       required SortDirection direction,
       required ListType listType}) {
+    _defaultSortBy = sortBy;
+    _defaultDirection = direction;
+
     var initialState = SortListState()
         .copyWith(sortBy: sortBy, direction: direction, listType: listType);
 
     return SortListCubit._(initialState);
   }
+
+  void resetSorting() => emit(state.copyWith(
+        sortBy: _defaultSortBy,
+        direction: _defaultDirection,
+      ));
 
   void sortBy(SortBy sortBy) => emit(state.copyWith(sortBy: sortBy));
 

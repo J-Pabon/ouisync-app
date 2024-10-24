@@ -195,6 +195,8 @@ class _MainPageState extends State<MainPage>
 
       if (currentRepoCubit != null) {
         final isFolder = !repos.showList;
+
+        sortListCubit.resetSorting();
         currentRepoCubit.updateNavigation(isFolder: isFolder);
       }
 
