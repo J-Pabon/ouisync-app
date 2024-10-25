@@ -9,7 +9,7 @@ import '../utils/utils.dart'
     show AppThemeExtension, Dimensions, Fields, ThemeGetter;
 import '../widgets/widgets.dart' show DirectionalAppBar;
 
-class RepositoryQRPage extends StatefulWidget {
+class RepositoryQRPage extends StatelessWidget {
   const RepositoryQRPage({
     required this.repoName,
     required this.accessMode,
@@ -21,11 +21,6 @@ class RepositoryQRPage extends StatefulWidget {
   final AccessMode accessMode;
   final String shareLink;
 
-  @override
-  State<RepositoryQRPage> createState() => _RepositoryQRPageState();
-}
-
-class _RepositoryQRPageState extends State<RepositoryQRPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: DirectionalAppBar(
@@ -42,20 +37,20 @@ class _RepositoryQRPageState extends State<RepositoryQRPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildRepoID(),
-                _getQRCodeImage(widget.shareLink),
-                _buildShareMessage(),
+                _buildRepoID(context),
+                _getQRCodeImage(context, shareLink),
+                _buildShareMessage(context),
               ],
             ),
           ),
         ),
       );
 
-  Widget _buildRepoID() {
+  Widget _buildRepoID(BuildContext context) {
     return Column(
       children: [
         Text(
-          '\'${widget.repoName}\'',
+          '\'$repoName\'',
           textAlign: TextAlign.center,
           softWrap: true,
           maxLines: 1,
@@ -66,7 +61,7 @@ class _RepositoryQRPageState extends State<RepositoryQRPage> {
         Padding(
           padding: EdgeInsetsDirectional.only(bottom: 20.0),
           child: Text(
-            widget.accessMode.name,
+            accessMode.name,
             textAlign: TextAlign.center,
             style: context.theme.appTextStyle.bodyMedium
                 .copyWith(color: Colors.white),
@@ -76,7 +71,7 @@ class _RepositoryQRPageState extends State<RepositoryQRPage> {
     );
   }
 
-  Widget _getQRCodeImage(String tokenLink) {
+  Widget _getQRCodeImage(BuildContext context, String tokenLink) {
     double qrCodeSize = 0.0;
     qrCodeSize = (Platform.isAndroid || Platform.isIOS
             ? MediaQuery.of(context).size.width
@@ -116,7 +111,7 @@ class _RepositoryQRPageState extends State<RepositoryQRPage> {
         child: qrCodeImage);
   }
 
-  Widget _buildShareMessage() {
+  Widget _buildShareMessage(BuildContext context) {
     return Padding(
       padding: Dimensions.paddingTop40,
       child: Column(
