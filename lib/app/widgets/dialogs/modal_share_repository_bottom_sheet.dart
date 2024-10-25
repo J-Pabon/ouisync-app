@@ -5,10 +5,20 @@ import 'package:ouisync/ouisync.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../generated/l10n.dart';
-import '../../cubits/repo.dart';
-import '../../pages/pages.dart';
-import '../../utils/utils.dart';
-import '../widgets.dart';
+import '../../cubits/cubits.dart' show RepoCubit;
+import '../../pages/pages.dart' show RepositoryQRPage;
+import '../../utils/utils.dart'
+    show
+        AppLogger,
+        AppThemeExtension,
+        Constants,
+        copyStringToClipboard,
+        Dimensions,
+        Fields,
+        formatShareLinkForDisplay,
+        showSnackBar,
+        ThemeGetter;
+import '../widgets.dart' show AccessModeSelector;
 
 class ShareRepository extends StatefulWidget {
   const ShareRepository({
@@ -256,10 +266,17 @@ class _ShareRepositoryState extends State<ShareRepository> with AppLogger {
                     return;
                   }
 
+                  assert(_accessMode != null, 'AccessMode is null');
+
+                  final repoName = widget.repository.name;
+                  final accessMode = _accessMode!;
+
                   await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) {
                       return RepositoryQRPage(
+                        repoName: repoName,
+                        accessMode: accessMode,
                         shareLink: _shareToken!,
                       );
                     }),

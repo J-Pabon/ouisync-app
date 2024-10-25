@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:ouisync/ouisync.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../generated/l10n.dart';
@@ -9,8 +10,15 @@ import '../utils/utils.dart'
 import '../widgets/widgets.dart' show DirectionalAppBar;
 
 class RepositoryQRPage extends StatefulWidget {
-  const RepositoryQRPage({required this.shareLink, super.key});
+  const RepositoryQRPage({
+    required this.repoName,
+    required this.accessMode,
+    required this.shareLink,
+    super.key,
+  });
 
+  final String repoName;
+  final AccessMode accessMode;
   final String shareLink;
 
   @override
@@ -20,19 +28,53 @@ class RepositoryQRPage extends StatefulWidget {
 class _RepositoryQRPageState extends State<RepositoryQRPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: DirectionalAppBar(
-        leading: Fields.actionIcon(
-          const Icon(Icons.close, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
+        appBar: DirectionalAppBar(
+          leading: Fields.actionIcon(
+            const Icon(Icons.close, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          backgroundColor: Colors.transparent,
         ),
-        backgroundColor: Colors.transparent,
-      ),
-      backgroundColor: Theme.of(context).primaryColorDark,
-      body: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        _getQRCodeImage(widget.shareLink),
-        _buildShareMessage()
-      ])));
+        backgroundColor: Theme.of(context).primaryColorDark,
+        body: Center(
+          child: Padding(
+            padding: EdgeInsetsDirectional.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildRepoID(),
+                _getQRCodeImage(widget.shareLink),
+                _buildShareMessage(),
+              ],
+            ),
+          ),
+        ),
+      );
+
+  Widget _buildRepoID() {
+    return Column(
+      children: [
+        Text(
+          '\'${widget.repoName}\'',
+          textAlign: TextAlign.center,
+          softWrap: true,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: context.theme.appTextStyle.titleLarge
+              .copyWith(color: Colors.white),
+        ),
+        Padding(
+          padding: EdgeInsetsDirectional.only(bottom: 20.0),
+          child: Text(
+            widget.accessMode.name,
+            textAlign: TextAlign.center,
+            style: context.theme.appTextStyle.bodyMedium
+                .copyWith(color: Colors.white),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _getQRCodeImage(String tokenLink) {
     double qrCodeSize = 0.0;
@@ -76,17 +118,24 @@ class _RepositoryQRPageState extends State<RepositoryQRPage> {
 
   Widget _buildShareMessage() {
     return Padding(
-        padding: Dimensions.paddingTop40,
-        child: Column(children: [
-          Text(S.current.messageShareWithWR,
-              textAlign: TextAlign.center,
-              style: context.theme.appTextStyle.titleLarge
-                  .copyWith(color: Colors.white)),
+      padding: Dimensions.paddingTop40,
+      child: Column(
+        children: [
+          Text(
+            S.current.messageShareWithWR,
+            textAlign: TextAlign.center,
+            style: context.theme.appTextStyle.titleLarge
+                .copyWith(color: Colors.white),
+          ),
           Dimensions.spacingVertical,
-          Text(S.current.messageScanQROrShare,
-              textAlign: TextAlign.center,
-              style: context.theme.appTextStyle.bodyMedium
-                  .copyWith(color: Colors.white))
-        ]));
+          Text(
+            S.current.messageScanQROrShare,
+            textAlign: TextAlign.center,
+            style: context.theme.appTextStyle.bodyMedium
+                .copyWith(color: Colors.white),
+          )
+        ],
+      ),
+    );
   }
 }
